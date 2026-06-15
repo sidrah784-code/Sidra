@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sidra | Data Analyst Portfolio</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Segoe UI',Arial,sans-serif; background:#f8f9fc; color:#1a1a2e; }
+
+nav { background:#1F4E79; padding:1rem 2rem; display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; z-index:100; }
+nav .logo { color:#fff; font-size:1.2rem; font-weight:700; letter-spacing:1px; }
+nav ul { list-style:none; display:flex; gap:1.5rem; }
+nav ul a { color:#B5D4F4; text-decoration:none; font-size:0.85rem; transition:color 0.2s; }
+nav ul a:hover { color:#fff; }
+
+.hero { background:#1F4E79; color:white; padding:4.5rem 2rem 3.5rem; text-align:center; }
+.hero-avatar { width:80px; height:80px; border-radius:50%; background:#B5D4F4; display:flex; align-items:center; justify-content:center; font-size:2rem; font-weight:700; color:#1F4E79; margin:0 auto 1.2rem; border:3px solid rgba(255,255,255,0.3); }
+.hero h1 { font-size:2.4rem; font-weight:700; margin-bottom:0.4rem; }
+.hero p.tagline { font-size:1rem; color:#B5D4F4; margin-bottom:1.2rem; }
+.hero-badges { display:flex; gap:0.6rem; justify-content:center; flex-wrap:wrap; margin-bottom:1.8rem; }
+.badge { background:rgba(255,255,255,0.13); border:1px solid rgba(255,255,255,0.25); color:#fff; padding:0.35rem 0.9rem; border-radius:20px; font-size:0.8rem; }
+.badge.strong { background:rgba(255,255,255,0.25); border-color:rgba(255,255,255,0.5); font-weight:600; }
+.hero-links { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; }
+.btn { padding:0.6rem 1.4rem; border-radius:8px; text-decoration:none; font-size:0.88rem; font-weight:600; transition:all 0.2s; display:inline-block; cursor:pointer; border:none; }
+.btn-white { background:#fff; color:#1F4E79; }
+.btn-white:hover { background:#E6F1FB; }
+.btn-outline { background:transparent; color:#fff; border:2px solid rgba(255,255,255,0.45); }
+.btn-outline:hover { background:rgba(255,255,255,0.12); }
+
+section { padding:3.5rem 2rem; max-width:1080px; margin:0 auto; }
+.section-title { font-size:1.5rem; font-weight:700; color:#1F4E79; margin-bottom:0.4rem; }
+.section-line { width:48px; height:4px; background:#2E75B6; border-radius:2px; margin-bottom:1.8rem; }
+
+/* SKILLS */
+.skills-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:1rem; }
+.skill-card { background:#fff; border:1px solid #E6F1FB; border-radius:12px; padding:1.1rem 1.2rem; }
+.skill-card h4 { font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; color:#2E75B6; margin-bottom:0.65rem; }
+.skill-tag { display:inline-block; padding:0.28rem 0.65rem; border-radius:6px; font-size:0.78rem; margin:0.18rem 0.18rem 0.18rem 0; font-weight:500; }
+.tag-strong { background:#1F4E79; color:#fff; }
+.tag-mid { background:#D6E4F0; color:#1F4E79; }
+.tag-light { background:#f0f6ff; color:#2E75B6; }
+
+/* PROJECTS */
+.projects-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:1.4rem; }
+.project-card { background:#fff; border-radius:14px; border:1px solid #e0e8f0; overflow:hidden; transition:transform 0.2s,box-shadow 0.2s; }
+.project-card:hover { transform:translateY(-4px); box-shadow:0 8px 24px rgba(30,78,121,0.12); }
+.project-header { padding:1.1rem 1.4rem; color:white; }
+.project-header.bi { background:#1F4E79; }
+.project-header.excel { background:#1D6B3E; }
+.project-header.sql { background:#6B3A1F; }
+.project-header.hr { background:#4A1F6B; }
+.project-header.sales { background:#1F4E79; }
+.project-header h3 { font-size:0.95rem; margin-bottom:0.2rem; }
+.project-header .tool-badge { display:inline-block; background:rgba(255,255,255,0.2); border:1px solid rgba(255,255,255,0.3); color:#fff; font-size:0.7rem; padding:0.2rem 0.55rem; border-radius:12px; margin-top:0.3rem; }
+.project-body { padding:1.1rem 1.4rem; }
+.project-body p { font-size:0.86rem; color:#444; line-height:1.6; margin-bottom:0.9rem; }
+.project-tags { display:flex; flex-wrap:wrap; gap:0.35rem; }
+.ptag { background:#f0f6ff; color:#2E75B6; font-size:0.73rem; padding:0.22rem 0.55rem; border-radius:5px; font-weight:500; }
+
+/* CHARTS */
+.charts-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:1.4rem; }
+.chart-card { background:#fff; border-radius:14px; border:1px solid #e0e8f0; padding:1.3rem; }
+.chart-card .chart-label { display:flex; align-items:center; gap:8px; margin-bottom:0.3rem; }
+.chart-card h4 { font-size:0.92rem; font-weight:700; color:#1F4E79; }
+.chart-card .tool-tag { font-size:0.7rem; background:#D6E4F0; color:#1F4E79; padding:0.15rem 0.5rem; border-radius:10px; font-weight:600; }
+.chart-card p { font-size:0.76rem; color:#888; margin-bottom:1rem; }
+.chart-card canvas { max-height:200px; }
+
+/* KPIs */
+.kpi-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:0.75rem; margin-bottom:1rem; }
+.kpi { background:#f8f9fc; border:1px solid #e0e8f0; border-radius:10px; padding:0.75rem 1rem; text-align:center; }
+.kpi .val { font-size:1.3rem; font-weight:700; color:#1F4E79; }
+.kpi .lbl { font-size:0.7rem; color:#888; margin-top:2px; }
+.kpi .delta { font-size:0.72rem; margin-top:3px; }
+.delta.up { color:#1D9E75; }
+.delta.down { color:#D85A30; }
+
+/* ABOUT */
+.about-grid { display:grid; grid-template-columns:1fr 1fr; gap:2rem; align-items:start; }
+.about-text p { font-size:0.93rem; line-height:1.8; color:#333; margin-bottom:0.9rem; }
+.about-details { background:#fff; border-radius:14px; border:1px solid #e0e8f0; padding:1.4rem; }
+.detail-row { display:flex; justify-content:space-between; padding:0.55rem 0; border-bottom:1px solid #f0f0f0; font-size:0.85rem; }
+.detail-row:last-child { border-bottom:none; }
+.detail-label { color:#888; }
+.detail-value { color:#1a1a2e; font-weight:500; text-align:right; }
+
+.contact-section { background:#1F4E79; border-radius:16px; padding:2.5rem 2rem; text-align:center; color:white; margin-bottom:2rem; }
+.contact-section h2 { font-size:1.5rem; margin-bottom:0.4rem; }
+.contact-section p { color:#B5D4F4; margin-bottom:1.3rem; font-size:0.9rem; }
+.contact-links { display:flex; gap:0.9rem; justify-content:center; flex-wrap:wrap; }
+.contact-link { background:rgba(255,255,255,0.13); border:1px solid rgba(255,255,255,0.25); color:#fff; padding:0.6rem 1.3rem; border-radius:8px; text-decoration:none; font-size:0.87rem; transition:background 0.2s; }
+.contact-link:hover { background:rgba(255,255,255,0.22); }
+
+footer { text-align:center; padding:1.5rem; color:#aaa; font-size:0.78rem; }
+
+@media(max-width:640px){
+  .hero h1{font-size:1.7rem;}
+  .about-grid{grid-template-columns:1fr;}
+  nav ul{gap:0.8rem;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">SIDRA</div>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#dashboards">Dashboards</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <div class="hero-avatar">S</div>
+  <h1>Sidra</h1>
+  <p class="tagline">Data Analyst &nbsp;|&nbsp; MIS Executive &nbsp;|&nbsp; BI & Dashboard Specialist</p>
+  <div class="hero-badges">
+    <span class="badge strong">Power BI ★</span>
+    <span class="badge strong">Advanced Excel ★</span>
+    <span class="badge">SQL</span>
+    <span class="badge">Python</span>
+    <span class="badge">Tableau</span>
+  </div>
+  <div class="hero-links">
+    <a href="mailto:ssidrahh032@gmail.com" class="btn btn-white">📧 Hire Me</a>
+    <a href="#projects" class="btn btn-outline">View Projects ↓</a>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-title">About Me</div>
+  <div class="section-line"></div>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>I'm a B.Sc. Computer Science fresher specializing in <strong>Power BI dashboards, Advanced Excel MIS reporting, and SQL data analysis</strong>. I build dashboards that make data easy to understand for business teams — from KPI tracking to HR analytics and sales performance.</p>
+      <p>Through my Quantium analytics simulation, I worked with real transaction data to uncover customer trends and measure business impact using uplift analysis. I believe good data work means telling the right story, not just showing numbers.</p>
+      <p>Actively seeking a <strong>Data Analyst or MIS Executive role</strong> in Noida, Delhi/NCR, or Gurugram where I can build dashboards that drive real decisions.</p>
+    </div>
+    <div class="about-details">
+      <div class="detail-row"><span class="detail-label">Location</span><span class="detail-value">Meerut, UP</span></div>
+      <div class="detail-row"><span class="detail-label">Open To</span><span class="detail-value">Noida | Delhi/NCR | Gurugram</span></div>
+      <div class="detail-row"><span class="detail-label">Education</span><span class="detail-value">B.Sc. CS – CCS University 2025</span></div>
+      <div class="detail-row"><span class="detail-label">Top Skills</span><span class="detail-value">Power BI · Advanced Excel</span></div>
+      <div class="detail-row"><span class="detail-label">Target Role</span><span class="detail-value">Data Analyst · MIS Executive</span></div>
+      <div class="detail-row"><span class="detail-label">Certification</span><span class="detail-value">Data Science – Alison | Quantium</span></div>
+      <div class="detail-row"><span class="detail-label">Languages</span><span class="detail-value">English · Hindi</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-title">Technical Skills</div>
+  <div class="section-line"></div>
+  <div class="skills-grid">
+    <div class="skill-card">
+      <h4>⭐ Power BI (Advanced)</h4>
+      <span class="skill-tag tag-strong">DAX</span>
+      <span class="skill-tag tag-strong">Data Modeling</span>
+      <span class="skill-tag tag-strong">Interactive Dashboards</span>
+      <span class="skill-tag tag-mid">Power Query</span>
+      <span class="skill-tag tag-mid">KPI Reports</span>
+    </div>
+    <div class="skill-card">
+      <h4>⭐ Advanced Excel</h4>
+      <span class="skill-tag tag-strong">Pivot Tables</span>
+      <span class="skill-tag tag-strong">VLOOKUP / XLOOKUP</span>
+      <span class="skill-tag tag-strong">Excel Dashboards</span>
+      <span class="skill-tag tag-mid">Conditional Formatting</span>
+      <span class="skill-tag tag-mid">Macros / VBA (basic)</span>
+    </div>
+    <div class="skill-card">
+      <h4>SQL (Basic)</h4>
+      <span class="skill-tag tag-mid">SELECT & Filters</span>
+      <span class="skill-tag tag-mid">JOINs</span>
+      <span class="skill-tag tag-mid">GROUP BY</span>
+      <span class="skill-tag tag-light">Subqueries</span>
+      <span class="skill-tag tag-light">Aggregations</span>
+    </div>
+    <div class="skill-card">
+      <h4>Python (Basic)</h4>
+      <span class="skill-tag tag-mid">Pandas</span>
+      <span class="skill-tag tag-mid">NumPy</span>
+      <span class="skill-tag tag-light">Data Cleaning</span>
+      <span class="skill-tag tag-light">Matplotlib</span>
+      <span class="skill-tag tag-light">Jupyter Notebook</span>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-title">Projects</div>
+  <div class="section-line"></div>
+  <div class="projects-grid">
+
+    <div class="project-card">
+      <div class="project-header bi">
+        <h3>Sales Performance Dashboard</h3>
+        <span class="tool-badge">Power BI · Advanced</span>
+      </div>
+      <div class="project-body">
+        <p>Built an end-to-end interactive sales dashboard with dynamic DAX measures, drill-through pages by region and product category, and YoY comparison KPIs. Enabled stakeholders to self-serve insights using slicers and filters.</p>
+        <div class="project-tags">
+          <span class="ptag">Power BI</span><span class="ptag">DAX</span><span class="ptag">Data Modeling</span><span class="ptag">KPI Design</span><span class="ptag">Drill-through</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-header excel">
+        <h3>MIS Excel Dashboard</h3>
+        <span class="tool-badge">Advanced Excel</span>
+      </div>
+      <div class="project-body">
+        <p>Designed a fully automated MIS report in Excel using Pivot Tables, dynamic charts, XLOOKUP, and conditional formatting. Reduced manual reporting time by automating monthly data refresh with structured templates.</p>
+        <div class="project-tags">
+          <span class="ptag">Pivot Tables</span><span class="ptag">XLOOKUP</span><span class="ptag">Conditional Formatting</span><span class="ptag">Dynamic Charts</span><span class="ptag">MIS Reporting</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-header sql">
+        <h3>SQL Sales Analysis Project</h3>
+        <span class="tool-badge">SQL</span>
+      </div>
+      <div class="project-body">
+        <p>Queried a retail sales database to identify top-performing products, customer purchase patterns, and monthly revenue trends. Used JOINs, GROUP BY, and subqueries to extract insights from multiple related tables.</p>
+        <div class="project-tags">
+          <span class="ptag">SQL</span><span class="ptag">JOINs</span><span class="ptag">Aggregations</span><span class="ptag">Subqueries</span><span class="ptag">Data Extraction</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-header hr">
+        <h3>HR Analytics Dashboard</h3>
+        <span class="tool-badge">Power BI · Excel</span>
+      </div>
+      <div class="project-body">
+        <p>Created an HR dashboard tracking headcount, attrition rate, department-wise salary distribution, and employee tenure. Used Power BI and Excel to help HR teams quickly identify high-attrition departments and plan retention strategies.</p>
+        <div class="project-tags">
+          <span class="ptag">Power BI</span><span class="ptag">Excel</span><span class="ptag">Attrition Analysis</span><span class="ptag">HR Metrics</span><span class="ptag">DAX</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-header bi">
+        <h3>Quantium Data Analytics Simulation</h3>
+        <span class="tool-badge">Python · Analytics</span>
+      </div>
+      <div class="project-body">
+        <p>Analyzed real retail transaction data using Python (Pandas) to uncover customer purchasing patterns. Conducted A/B testing with control store benchmarking and uplift analysis to evaluate trial store layouts for stakeholders.</p>
+        <div class="project-tags">
+          <span class="ptag">Python</span><span class="ptag">Pandas</span><span class="ptag">A/B Testing</span><span class="ptag">Uplift Analysis</span><span class="ptag">Reporting</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- DASHBOARDS / VISUALIZATIONS -->
+<section id="dashboards">
+  <div class="section-title">Sample Dashboard Previews</div>
+  <div class="section-line"></div>
+  <p style="color:#666;font-size:0.88rem;margin-bottom:1.5rem;">Interactive chart previews demonstrating the kind of dashboards I build in Power BI and Excel.</p>
+
+  <!-- Sales Dashboard Preview -->
+  <div class="chart-card" style="margin-bottom:1.4rem;">
+    <div class="chart-label">
+      <h4>Sales Performance Dashboard</h4>
+      <span class="tool-tag">Power BI Style</span>
+    </div>
+    <p>Monthly revenue trend with YoY growth — core KPI page of the sales dashboard</p>
+    <div class="kpi-row">
+      <div class="kpi"><div class="val">₹88L</div><div class="lbl">Total Revenue</div><div class="delta up">▲ 14% YoY</div></div>
+      <div class="kpi"><div class="val">1,240</div><div class="lbl">Orders</div><div class="delta up">▲ 9% YoY</div></div>
+      <div class="kpi"><div class="val">₹7,096</div><div class="lbl">Avg Order Value</div><div class="delta up">▲ 4%</div></div>
+      <div class="kpi"><div class="val">82%</div><div class="lbl">Target Hit</div><div class="delta down">▼ 3%</div></div>
+    </div>
+    <canvas id="salesChart" style="max-height:180px;"></canvas>
+  </div>
+
+  <div class="charts-grid">
+
+    <!-- MIS Dashboard -->
+    <div class="chart-card">
+      <div class="chart-label">
+        <h4>MIS Excel Dashboard</h4>
+        <span class="tool-tag">Advanced Excel</span>
+      </div>
+      <p>Department-wise monthly target vs actual performance</p>
+      <canvas id="misChart"></canvas>
+    </div>
+
+    <!-- HR Analytics -->
+    <div class="chart-card">
+      <div class="chart-label">
+        <h4>HR Analytics Dashboard</h4>
+        <span class="tool-tag">Power BI</span>
+      </div>
+      <p>Attrition rate by department — identify high-risk areas</p>
+      <canvas id="hrChart"></canvas>
+    </div>
+
+    <!-- SQL Analysis -->
+    <div class="chart-card">
+      <div class="chart-label">
+        <h4>SQL Analysis — Top Products</h4>
+        <span class="tool-tag">SQL Output</span>
+      </div>
+      <p>Top 5 products by revenue extracted via SQL queries</p>
+      <canvas id="sqlChart"></canvas>
+    </div>
+
+    <!-- Quantium -->
+    <div class="chart-card">
+      <div class="chart-label">
+        <h4>Quantium — Trial vs Control Uplift</h4>
+        <span class="tool-tag">Python / Analytics</span>
+      </div>
+      <p>Sales index: trial stores outperformed control stores across 3 months</p>
+      <canvas id="upliftChart"></canvas>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-section">
+    <h2>Let's Work Together</h2>
+    <p>Looking for a Data Analyst or MIS Executive who knows Power BI & Advanced Excel? Let's connect.</p>
+    <div class="contact-links">
+      <a class="contact-link" href="mailto:ssidrahh032@gmail.com">📧 ssidrahh032@gmail.com</a>
+      <a class="contact-link" href="tel:+917302471025">📞 +91 73024 71025</a>
+      <a class="contact-link" href="mailto:s.sidrah784@gmail.com">📧 s.sidrah784@gmail.com</a>
+    </div>
+  </div>
+</section>
+<footer>© 2025 Sidra · Data Analyst & MIS Executive Portfolio · Meerut, Uttar Pradesh</footer>
+
+<script>
+const BD = '#1F4E79', BM = '#2E75B6', BL = '#B5D4F4', BLL = '#D6E4F0';
+const TEAL = '#1D9E75', AMBER = '#BA7517', CORAL = '#D85A30', PURP = '#7F77DD';
+
+// Sales Trend
+new Chart(document.getElementById('salesChart'),{
+  type:'line',
+  data:{
+    labels:['Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr','May','Jun'],
+    datasets:[
+      {label:'This Year (₹L)',data:[52,58,54,71,68,85,62,70,74,80,76,88],borderColor:BD,backgroundColor:'rgba(31,78,121,0.08)',borderWidth:2.5,fill:true,tension:0.4,pointBackgroundColor:BD,pointRadius:4},
+      {label:'Last Year (₹L)',data:[44,49,47,60,57,72,55,61,63,68,65,77],borderColor:BL,borderDash:[5,4],borderWidth:1.8,fill:false,tension:0.4,pointRadius:3,pointBackgroundColor:BL}
+    ]
+  },
+  options:{responsive:true,plugins:{legend:{position:'bottom',labels:{font:{size:11},padding:12}}},scales:{y:{grid:{color:'#f0f0f0'}},x:{grid:{display:false}}}}
+});
+
+// MIS — target vs actual
+new Chart(document.getElementById('misChart'),{
+  type:'bar',
+  data:{
+    labels:['Sales','Finance','Ops','HR','IT'],
+    datasets:[
+      {label:'Target',data:[100,100,100,100,100],backgroundColor:BLL,borderRadius:4},
+      {label:'Actual',data:[92,105,88,97,78],backgroundColor:[TEAL,TEAL,CORAL,TEAL,CORAL].map(c=>c+'CC'),borderRadius:4}
+    ]
+  },
+  options:{responsive:true,plugins:{legend:{position:'bottom',labels:{font:{size:11},padding:10}}},scales:{y:{max:120,grid:{color:'#f0f0f0'},ticks:{callback:v=>v+'%'}},x:{grid:{display:false}}}}
+});
+
+// HR Attrition
+new Chart(document.getElementById('hrChart'),{
+  type:'bar',
+  data:{
+    labels:['Sales','Support','Ops','IT','HR','Finance'],
+    datasets:[{
+      label:'Attrition %',
+      data:[22,18,14,9,7,5],
+      backgroundColor:[CORAL,CORAL,AMBER,AMBER,TEAL,TEAL].map(c=>c+'CC'),
+      borderRadius:5
+    }]
+  },
+  options:{
+    indexAxis:'y',
+    responsive:true,
+    plugins:{legend:{display:false}},
+    scales:{x:{max:30,grid:{color:'#f0f0f0'},ticks:{callback:v=>v+'%'}},y:{grid:{display:false}}}
+  }
+});
+
+// SQL top products
+new Chart(document.getElementById('sqlChart'),{
+  type:'bar',
+  data:{
+    labels:['Product A','Product B','Product C','Product D','Product E'],
+    datasets:[{label:'Revenue (₹L)',data:[34,28,22,17,13],backgroundColor:BM+'CC',borderRadius:5}]
+  },
+  options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{grid:{color:'#f0f0f0'}},x:{grid:{display:false}}}}
+});
+
+// Uplift
+new Chart(document.getElementById('upliftChart'),{
+  type:'bar',
+  data:{
+    labels:['Month 1','Month 2','Month 3'],
+    datasets:[
+      {label:'Trial Stores',data:[88,104,117],backgroundColor:BD,borderRadius:5},
+      {label:'Control Stores',data:[80,82,85],backgroundColor:BLL,borderRadius:5}
+    ]
+  },
+  options:{responsive:true,plugins:{legend:{position:'bottom',labels:{font:{size:11},padding:10}}},scales:{y:{grid:{color:'#f0f0f0'},title:{display:true,text:'Sales Index',font:{size:10}}},x:{grid:{display:false}}}}
+});
+</script>
+</body>
+</html>
